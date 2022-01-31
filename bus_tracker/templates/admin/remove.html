@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <h1>Remove Conductor/Driver/Route/Bus</h1>
+{% endblock %}
+
+{% block content %}
+<form method='get'>
+    <select name="table">
+        <option selected="selected">{% if table_name %}{{ table_name|capitalize }}{% else %}Select option{% endif %}</option>
+        {% for element in ("bus", "conductor", "route", "driver") %}
+            {% if element != table_name %}
+                <option value="{{ element }}">{{ element|capitalize }}</option>
+            {% endif %}
+        {% endfor %}
+    </select>
+    <input type="submit">
+</form>
+<form method='post'>
+    <label for="id">
+        {% if table_name=='conductor' %}
+        Conductor ID:-
+        {% elif table_name=='driver' %}
+        Driver ID:-
+        {% elif table_name=='bus' %}
+        Registration Number:-
+        {% elif table_name=='route' %}
+        Route Name:-
+        {% endif %}
+    </label>
+    {% if table_name in ('bus', 'route') %}
+    <input type="text" name="id" id="id" list="options">
+    <input type="submit">
+    {% elif table_name in ('conductor', 'driver') %}
+    <input type="number" name="id" id="id" list="options">
+    <input type="submit">
+    {% endif %}
+    <datalist id="options">
+        {% for option in options %}
+            <option>{{ option }}</option>
+        {% endfor %}
+    </datalist>
+</form>
+{% if done %}
+<hr>
+<p><b>Removed {{ table_name|capitalize }}:</b> {{ record }}</p>
+{% endif %}
+{% endblock %}

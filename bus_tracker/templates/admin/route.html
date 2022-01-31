@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <h1>Manage Routes</h1>
+    <a href="{{ url_for('admin.route') }}">Add Another</a>
+{% endblock %}
+
+{% block content %}
+    {% if not done %}
+    <form method='post'>
+        <label for="route_name">Name of Route to Create or Edit:
+        {% if route == '' %}
+            <input type="text" name="route_name" id="route_name" placeholder="Name of route" required>
+        </label>
+        <label>Stops:-</label>
+        <textarea id="route" name="route" placeholder="Stop1, Stop2, Stop3, Stop4.....">{{route}}</textarea>
+        {% else %}
+            <input type="text" name="route_name" id="route_name" value="{{route_name}}" required>
+        </label>
+        <label>Stops:-</label>
+        <textarea id="route" name="route" required placeholder="Stop1, Stop2, Stop3, Stop4.....">{{route}}</textarea>
+        {% endif %}
+        <input type="submit" value="Submit">
+    </form>
+    <hr>
+    <ul>
+        <li>Submit with just the route name to fill existing route to edit</li>
+        <li>Submit with new route name and route to create new</li>
+    </ul>
+    {% else %}
+    <h3>Written:-</h3>
+    <p><b>{{ route_name }}:</b> {{ route }}</p>
+    {% endif %}
+{% endblock %}

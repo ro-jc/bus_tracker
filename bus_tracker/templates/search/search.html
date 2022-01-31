@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Bus Search{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+
+<form method="post">
+  <label for="current_stop">Your Current Stop:-</label>
+  <input name="current_stop" id="current_stop" list="stops" value="{{ request.form['current_stop'] }}" required>
+  <label for="destination">Your Destination:-</label>
+  <input name="destination" id="destination" list="stops" value="{{ request.form['destination'] }}">
+  <datalist id="stops">
+    {% for stop in stop_list %}
+      <option>{{ stop }}</option>
+    {% endfor %}
+  </datalist>
+  <input type="submit" value="Search">
+</form>
+
+{% for bus in buses %}
+  <article>
+    <header>
+      <div>
+        <h2>Route: {{ bus['route'] }}</h2>
+        <div class="about">{{ bus['type'] }} bus with {{ bus['seat_available'] }} left {{ bus['current_stop'] }} at {{ bus['stop_time'] }}</div>
+      </div>
+    </header>
+    <p>Registration: {{ bus['registration'] }}</p>
+  </article>
+  {% if not loop.last %}
+    <hr>
+  {% endif %}
+{% endfor %}
+{% endblock %}

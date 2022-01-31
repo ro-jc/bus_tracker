@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <h1>Tables</h1>
+{% endblock %}
+
+{% block content %}
+    <form method='get'>
+        <select name="table_name">
+            <option selected="selected">{% if table_name %}{{ table_name|capitalize }}{% else %}Select option{% endif %}</option>
+            {% for element in ("bus", "conductor", "route", "driver") %}
+                {% if element != table_name %}
+                    <option value="{{ element }}">{{ element|capitalize }}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+        <input type="submit">
+    </form>
+    <hr>
+    <table style="width:100%" border=1 cellpadding=5>
+        {% if table %}
+        <tr>
+            {% for key in table[0] %}
+            <th> {{ key|title }} </th>
+            {% endfor %}
+        </tr>
+        {% endif %}
+
+        {% for dictionary in table %}
+        <tr>
+            {% for value in dictionary.values() %}
+            <td> {{ value }} </td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

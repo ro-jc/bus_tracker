@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <h1>{% block title %}Admin Portal{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+    <br>
+    <h2>Actions:-</h2>
+    <ul>
+        <li><a href="{{ url_for('admin.conductor') }}"><h3>Add Conductor</h3></a></li>
+        <li><a href="{{ url_for('admin.bus') }}"><h3>Add/Edit Bus</h3></a></li>
+        <li><a href="{{ url_for('admin.route') }}"><h3>Add/Edit Route</h3></a></li>
+        <li><a href="{{ url_for('admin.driver') }}"><h3>Add Driver</h3></a></li>
+        <li><a href="{{ url_for('admin.remove') }}"><h3>Remove Conductor/Driver/Route/Bus</h3></a></li>
+        <li><a href="{{ url_for('admin.table') }}"><h3>Show Current Tables</h3></a></li>
+    </ul>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block header %}
+    <h1>
+        {% block title %}
+        Add 
+        {% if conductor %}
+            Conductor
+        {% else %}
+            Driver
+        {% endif %}
+        {% endblock %}
+    </h1>
+{% endblock %}
+
+{% block content %}
+    <form method='post'>
+        <label>Name:
+            <input type="text" name="name" id="name" required>
+        </label>
+        {% if conductor %}
+        <label>Password:
+            <input type="text" name="password" id="password" required>
+        </label>
+        {% endif %}
+        <input type="submit" value="Add"> 
+    </form>
+    {% if record %}
+    <hr>
+        <footer>
+            <h3>Added:-</h3>
+            <h4>{{ record }}</h4>
+        </footer>
+    {% endif %}
+{% endblock %}

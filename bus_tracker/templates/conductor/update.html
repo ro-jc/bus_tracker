@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>Update Bus Status</h1>
+<h2>{{ record['registration'] }}: Route {{ record['route'] }}</h2>
+{% endblock %}
+
+{% block content %}
+<form method='post'>
+    <button name="stop">Update Stop</button>
+    <button name="seat">Update Seats</button>
+</form>
+<hr>
+<article>
+    <header><h2>Route:-</h2></header>
+    <ul>
+        {% for index in range(route|length) %}
+            {% if index <= record['stop_index'] %}
+                <li><s>{{ route[index] }}</s></li>
+            {% else %}
+                <li>{{ route[index] }}</li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+</article>
+{% endblock %}
