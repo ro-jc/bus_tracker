@@ -133,7 +133,7 @@ def route():
 
         if route != '':
             route = route.replace(', ',',').split(sep=',')
-            route = [stop.strip().title() for stop in route if stop and not stop.isspace()]
+            route = [stop.strip() for stop in route if stop and not stop.isspace()]
             routes[route_name] = route
 
             with open("instance/routes.dat", "wb+") as f:
@@ -182,20 +182,22 @@ def remove():
     done = False
     value = ''
     record = dict()
+    options = []
 
-    table_name = request.args.get('table_name')
-    if table_name == 'route':
-        options = list(routes.keys())
-    elif table_name == 'bus':
-        db = get_db()
-        crs = db.cursor(dictionary=True)
-        crs.execute("SELECT registration from bus")
-        options = [record['registration'] for record in crs.fetchall()]
-    else:
-        db = get_db()
-        crs = db.cursor(dictionary=True)
-        crs.execute(f"SELECT userid from {table_name}")
-        options = [record['userid'] for record in crs.fetchall()]
+    table_name = request.args.get('table')
+    if table_name:
+        if table_name == 'route':
+            options = list(routes.keys())
+        elif table_name == 'bus':
+            db = get_db()
+            crs = db.cursor(dictionary=True)
+            crs.execute("SELECT registration from bus")
+            options = [record['registration'] for record in crs.fetchall()]
+        else:
+            db = get_db()
+            crs = db.cursor(dictionary=True)
+            crs.execute(f"SELECT userid from {table_name}")
+            options = [record['userid'] for record in crs.fetchall()]
 
     if request.method == 'POST':
         value = request.form['id']

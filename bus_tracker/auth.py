@@ -10,8 +10,8 @@ from bus_tracker.db import get_db
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
-@bp.route('/login', methods=('GET', 'POST'))
-def login():
+@bp.route('/conductorlogin', methods=('GET', 'POST'))
+def conductorlogin():
     if request.method == 'POST':
         user_id = request.form['userid']
         password = request.form['password']
@@ -91,13 +91,13 @@ def load_logged_in_user():
 @bp.route('/logout')
 def logout():
     session.clear()
-    return redirect(url_for('search'))
+    return redirect(url_for('search.bus'))
 
-def login_required(view):
+def conductor_login_required(view):
     @functools.wraps(view)
     def wrapped_view(**kwargs):
-        if g.user is None:
-            return redirect(url_for('auth.login')) 
+        if g.user is None or g.user.get('admin'):
+            return redirect(url_for('auth.conductorlogin')) 
         return view(**kwargs)
     return wrapped_view
 
@@ -105,9 +105,7 @@ def login_required(view):
 def admin_login_required(view):
     @functools.wraps(view)
     def wrapped_view(**kwargs):
-        if g.user is None or not g.user.get('admin',False):
+        if g.user is None or not g.user.get('admin'):
             return redirect(url_for('auth.adminlogin')) 
-
         return view(**kwargs)
-
     return wrapped_view

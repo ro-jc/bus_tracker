@@ -3,7 +3,7 @@ from flask import (
 )
 from werkzeug.exceptions import abort
 
-from bus_tracker.auth import login_required
+from bus_tracker.auth import conductor_login_required
 from bus_tracker.db import get_db
 from bus_tracker.__init__ import routes
 
@@ -15,7 +15,7 @@ bp = Blueprint('conductor', __name__, url_prefix='/conductor')
 
 
 @bp.route('/update', methods=('GET', 'POST'))
-@login_required
+@conductor_login_required
 def update():
     error = None
     db = get_db()
