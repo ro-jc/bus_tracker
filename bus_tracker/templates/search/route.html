@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}Route Search{% endblock %}</h1>
+<div class="route_bus" >
+	<a href="{{ url_for('search.bus') }}"><u><b>Bus Search</b></u></a>
+</div>
+{% endblock %}
+
+
+{% block content %}
+<form method="post">
+  <label for="stop1">Stop 1:-</label>
+  <input name="stop1" id="stop1" list="stops" value="{{ request.form['stop1'] }}" required>
+  <label for="stop2">Stop 2:-</label>
+  <input name="stop2" id="stop2" list="stops" value="{{ request.form['stop2'] }}" required>
+  <datalist id="stops">
+    {% for stop in stop_list %}
+      <option>{{ stop }}</option>
+    {% endfor %}
+  </datalist>
+  <input type="submit" value="Search">
+</form>
+
+{% for route_name in routes %}
+  <h2>{{ route_name }}</h2>
+    {% for stop in routes[route_name] %}
+      {% if stop in (request.form['stop1'], request.form['stop2']) %}
+        <b>{{ stop }}</b>
+      {% else %}
+        {{ stop }}
+      {% endif %}
+      {% if not loop.last %}
+        -->
+      {% endif %}
+    {% endfor %}
+  {% if not loop.last %}
+    <hr>
+  {% endif %}
+{% endfor %}
+{% endblock %}

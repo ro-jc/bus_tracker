@@ -29,7 +29,7 @@ def create_app(test_config=None):
 
     from . import search
     app.register_blueprint(search.bp)
-    app.add_url_rule('/', endpoint='search')
+    app.add_url_rule('/', endpoint='search.bus')
 
     from . import admin
     app.register_blueprint(admin.bp)
