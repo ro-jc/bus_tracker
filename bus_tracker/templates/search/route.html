@@ -11,18 +11,26 @@
 {% block content %}
 <form method="post">
   <label for="stop1">Stop 1:-</label>
-  <input name="stop1" id="stop1" list="stops" value="{{ request.form['stop1'] }}" required>
+  <input name="stop1" id="stop1" list="stops">
   <label for="stop2">Stop 2:-</label>
-  <input name="stop2" id="stop2" list="stops" value="{{ request.form['stop2'] }}" required>
+  <input name="stop2" id="stop2" list="stops">
+  <div style="text-align: center; padding: auto;"><h2>OR</h2></div>
+  <label for="route_name">Route Name</label>
+  <input name="route_name" id="route_name" list="routes">
   <datalist id="stops">
     {% for stop in stop_list %}
       <option>{{ stop }}</option>
     {% endfor %}
   </datalist>
+  <datalist id="routes">
+    {% for route_name in route_name_list %}
+      <option>{{ route_name }}</option>
+    {% endfor %}
+  </datalist>
   <input type="submit" value="Search">
 </form>
-
 {% for route_name in routes %}
+  <hr>
   <h2>{{ route_name }}</h2>
     {% for stop in routes[route_name] %}
       {% if stop in (request.form['stop1'], request.form['stop2']) %}
@@ -34,8 +42,5 @@
         -->
       {% endif %}
     {% endfor %}
-  {% if not loop.last %}
-    <hr>
-  {% endif %}
 {% endfor %}
 {% endblock %}
