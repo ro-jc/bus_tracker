@@ -14,22 +14,20 @@
 {% endblock %}
 
 {% block content %}
-    <form method='post'>
-        <label>Name:
-            <input type="text" name="name" id="name" required>
-        </label>
-        {% if conductor %}
-        <label>Password:
-            <input type="text" name="password" id="password" required>
-        </label>
-        {% endif %}
-        <input type="submit" value="Add"> 
-    </form>
-    {% if record %}
-    <hr>
-        <footer>
-            <h3>Added:-</h3>
-            <h4>{{ record }}</h4>
-        </footer>
+<form method='post'>
+    <label>Name:
+        <input type="text" name="name" id="name" required>
+    </label>
+    {% if conductor %}
+    <label>Password:
+        <input type="text" name="password" id="password" required>
+    </label>
     {% endif %}
+    <input type="submit" value="Add"> 
+</form>
+{% if record %}
+    <hr><br>
+    <h3>Added:-</h3>
+    <h4>{{ record }}</h4>
+{% endif %}
 {% endblock %}

@@ -26,8 +26,9 @@
         </label>
         <input type="submit" value="Submit">
     </form>
-    <hr>
     {% if record %}
-        <p>{{action}}: {{record}}</p>
+        <hr><br>
+        <h3>{{ action }}:-</h3>
+        <h4>{{ record }}</h4>
     {% endif %}
 {% endblock %}

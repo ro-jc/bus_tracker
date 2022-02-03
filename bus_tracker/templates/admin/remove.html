@@ -14,6 +14,7 @@
             {% endif %}
         {% endfor %}
     </select>
+    <br>
     <input type="submit">
 </form>
 <form method='post'>
@@ -42,7 +43,8 @@
     </datalist>
 </form>
 {% if done %}
-<hr>
-<p><b>Removed {{ table_name|capitalize }}:</b> {{ record }}</p>
+    <hr><br>
+    <h3>Removed {{ table_name|capitalize }}:-</h3>
+    <h4>{{ record }}</h4>
 {% endif %}
 {% endblock %}

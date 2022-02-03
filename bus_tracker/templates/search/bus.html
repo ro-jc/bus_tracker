@@ -22,11 +22,9 @@
 </form>
 
 {% for bus in buses %}
-    <h2>Route: {{ bus['route'] }}</h2>
-    {{ bus['type'] }} bus with {{ bus['seat_available'] }} left {{ bus['current_stop'] }} at {{ bus['stop_time'] }}
-    <p>Registration: {{ bus['registration'] }}</p>
-  {% if not loop.last %}
-    <hr>
-  {% endif %}
+  <hr>
+  <h2>Route: {{ bus['route'] }}</h2>
+  <h3>{{ bus['type'] }} bus with {{ bus['seat_available'] }} left {{ bus['current_stop'] }} at {{ bus['stop_time'] }}</h3>
+  <h4>Registration: {{ bus['registration'] }}</h4>
 {% endfor %}
 {% endblock %}
