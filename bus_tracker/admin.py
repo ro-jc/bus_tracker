@@ -128,7 +128,7 @@ def route():
     route_name=''
     done=0
     if request.method == 'POST':
-        route_name = request.form['route_name']
+        route_name = request.form['route_name'].upper()
         route = request.form.get('route', '')
 
         if route != '':
