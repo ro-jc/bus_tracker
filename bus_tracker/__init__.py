@@ -1,5 +1,5 @@
 import os
-from flask import Flask
+from flask import Flask, redirect, url_for
 from pickle import load
 
 stop_list = load(open("instance/stop_list.dat", "rb"))
@@ -29,7 +29,9 @@ def create_app(test_config=None):
 
     from . import search
     app.register_blueprint(search.bp)
-    app.add_url_rule('/', endpoint='search.bus')
+    @app.route('/')
+    def return_to_bus():
+        return redirect(url_for("search.bus"))
 
     from . import admin
     app.register_blueprint(admin.bp)
