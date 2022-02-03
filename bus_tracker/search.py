@@ -10,6 +10,7 @@ import pickle
 
 bp = Blueprint('search', __name__, url_prefix="/search")
 
+
 @bp.route('/bus', methods=('GET', 'POST'))
 def bus():
     results = []
@@ -35,6 +36,7 @@ def bus():
             if not destination or destination in [stop.lower() for stop in routes[route_name][route_index+1:]]:
                 if record['stop_index'] < route_indexes[route_name]:
                     record['current_stop'] = routes[route_name][record['stop_index']]
+                    record['gap'] = [stop.lower() for stop in routes[route_name]].index(current_stop) - record['stop_index']
                     record['stop_time'] = str(record['stop_time'])[:-3]
                     record['seat_available'] = 'free seats' if  record['seat_available'] else 'no free seats'
                     results.append(record)

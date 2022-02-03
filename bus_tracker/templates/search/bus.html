@@ -24,7 +24,7 @@
 {% for bus in buses %}
   <hr>
   <h2>Route: {{ bus['route'] }}</h2>
-  <h3>{{ bus['type'] }} bus with {{ bus['seat_available'] }} left {{ bus['current_stop'] }} at {{ bus['stop_time'] }}</h3>
+  <h3>{{ bus['type'] }} bus with {{ bus['seat_available'] }} left {{ bus['current_stop'] }} which is {{ bus['gap'] }} stops away at {{ bus['stop_time'] }}</h3>
   <h4>Registration: {{ bus['registration'] }}</h4>
 {% endfor %}
 {% endblock %}
