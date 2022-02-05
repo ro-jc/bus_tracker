@@ -117,7 +117,7 @@ def bus():
         if error is not None:
             flash(error)
 
-    return render_template('admin/bus.html', record=record, action=action)
+    return render_template('admin/bus.html', record=record, action=action, route_name_list=routes.keys())
 
 
 @bp.route('/route', methods=('GET','POST'))
@@ -146,7 +146,7 @@ def route():
             route = routes[route_name] if route_name in routes else ''
         route = str(route)[1:-1].replace("'","")
 
-    return render_template('admin/route.html', route=route, route_name=route_name, done=done)
+    return render_template('admin/route.html', route=route, route_name=route_name, done=done, route_name_list=routes.keys())
 
 
 @bp.route('/driver', methods=('GET','POST'))

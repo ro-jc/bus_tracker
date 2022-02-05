@@ -16,7 +16,7 @@
             <input type="number" name="driver_id" id="driver_id" placeholder="ID of driver of bus who is already in database">
         </label>
         <label for="route">Route:
-            <input type="text" name="route" id="route" placeholder="Route which bus runs on">
+            <input type="text" name="route" id="route" list="routes" placeholder="Route which bus runs on">
         </label>
         <label for="type">Type:
             <input type="text" name="type" id="type" placeholder="Air Conduitioned or Normal">
@@ -24,6 +24,11 @@
         <label for="stop_index">Current Stop Index:
             <input type="number" name="stop_index" id="stop_index" value=0 placeholder="Optional: Which stop bus is at on it's route as a number starting from 0">
         </label>
+        <datalist id="routes">
+            {% for route_name in route_name_list %}
+              <option>{{ route_name }}</option>
+            {% endfor %}
+        </datalist>
         <input type="submit" value="Submit">
     </form>
     {% if record %}

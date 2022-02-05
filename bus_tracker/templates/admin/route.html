@@ -10,16 +10,21 @@
     <form method='post'>
         <label for="route_name">Name of Route to Create or Edit:
         {% if route == '' %}
-            <input type="text" name="route_name" id="route_name" placeholder="Name of route" required>
+            <input type="text" name="route_name" id="route_name" placeholder="Name of route" list="routes" required>
         </label>
         <label>Stops:-</label>
         <textarea id="route" name="route" placeholder="Stop1, Stop2, Stop3, Stop4.....">{{route}}</textarea>
         {% else %}
-            <input type="text" name="route_name" id="route_name" value="{{route_name}}" required>
+            <input type="text" name="route_name" id="route_name" value="{{route_name}}" list="routes" required>
         </label>
         <label>Stops:-</label>
         <textarea id="route" name="route" required placeholder="Stop1, Stop2, Stop3, Stop4.....">{{route}}</textarea>
         {% endif %}
+        <datalist id="routes">
+            {% for route_name in route_name_list %}
+              <option>{{ route_name }}</option>
+            {% endfor %}
+        </datalist>
         <input type="submit" value="Submit">
     </form>
     <hr>
