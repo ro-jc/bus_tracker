@@ -103,11 +103,13 @@ def bus():
 
                 if route in routes or route=='':
                     query_param = ''
+                    #build query by adding  which attributes to update
                     for param_set in new_record.items():
+                        #handle integer and string cases
                         if type(param_set[1])==int:
-                            query_param += f"{param_set[0]}={param_set[1]}, "      
+                            query_param += f"{param_set[0]}={param_set[1]}, "
                         else:
-                            f"{param_set[0]}='{param_set[1]}', "
+                            query_param += f"{param_set[0]}='{param_set[1]}', "
 
                     crs.execute(f"UPDATE bus SET {query_param[:-2]} WHERE registration='{registration}'")
                     db.commit()
@@ -140,6 +142,7 @@ def route():
                 pickle.dump(routes, f)
                 f.seek(0)
                 routes = pickle.load(f)
+                print(routes[route_name])
             done=1
             
         else:     
@@ -186,9 +189,9 @@ def remove():
 
     table_name = request.args.get('table')
     if table_name:
-        if table_name == 'route':
+        if table_name == 'route' or 'Route':
             options = list(routes.keys())
-        elif table_name == 'bus':
+        elif table_name == 'bus' or 'Bus':
             db = get_db()
             crs = db.cursor(dictionary=True)
             crs.execute("SELECT registration from bus")
@@ -196,12 +199,12 @@ def remove():
         else:
             db = get_db()
             crs = db.cursor(dictionary=True)
-            crs.execute(f"SELECT userid from {table_name}")
+            crs.execute(f"SELECT userid from {table_name.lower()}")
             options = [record['userid'] for record in crs.fetchall()]
 
     if request.method == 'POST':
         value = request.form['id']
-        if table_name != 'route':
+        if table_name != 'route' or 'Route':
             if table_name == 'bus':
                 crs.execute(f"SELECT * FROM bus WHERE registration='{value}'")
                 record = crs.fetchone()
@@ -232,7 +235,7 @@ def remove():
     if error is not None:
         flash(error)
 
-    return render_template('admin/remove.html', table_name=table_name, options=options, record=record, done=done)
+    return render_template('admin/remove.html', table_name=table_name.lower(), options=options, record=record, done=done)
 
 
 
