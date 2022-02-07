@@ -26,20 +26,21 @@ def bus():
                 route_indexes[key] = [stop.lower() for stop in routes[key]].index(current_stop)
         
         crs = get_db().cursor(dictionary=True)
-        crs.execute("SELECT registration, route, type, stop_index, stop_time, seat_available"
-                    f" FROM bus WHERE route in {tuple(route_indexes)}")
+        if route_indexes:
+            crs.execute("SELECT registration, route, type, stop_index, stop_time, seat_available"
+                        f" FROM bus WHERE route in {tuple(route_indexes)}")
             
-        #check if bus has already passed the stop before adding to the result set
-        for record in crs.fetchall():
-            route_name = record['route']
-            route_index = route_indexes[route_name]
-            if not destination or destination in [stop.lower() for stop in routes[route_name][route_index+1:]]:
-                if record['stop_index'] < route_indexes[route_name]:
-                    record['current_stop'] = routes[route_name][record['stop_index']]
-                    record['gap'] = [stop.lower() for stop in routes[route_name]].index(current_stop) - record['stop_index']
-                    record['stop_time'] = str(record['stop_time'])[:-3]
-                    record['seat_available'] = 'free seats' if  record['seat_available'] else 'no free seats'
-                    results.append(record)
+            #check if bus has already passed the stop before adding to the result set
+            for record in crs.fetchall():
+                route_name = record['route']
+                route_index = route_indexes[route_name]
+                if not destination or destination in [stop.lower() for stop in routes[route_name][route_index+1:]]:
+                    if record['stop_index'] < route_indexes[route_name]:
+                        record['current_stop'] = routes[route_name][record['stop_index']]
+                        record['gap'] = [stop.lower() for stop in routes[route_name]].index(current_stop) - record['stop_index']
+                        record['stop_time'] = str(record['stop_time'])[:-3]
+                        record['seat_available'] = 'free seats' if  record['seat_available'] else 'no free seats'
+                        results.append(record)
 
     return render_template('search/bus.html', buses=results, stop_list=stop_list)
 
