@@ -139,7 +139,7 @@ def route():
             with open("instance/routes.dat", "wb+") as f:
                 pickle.dump(routes, f)
                 f.seek(0)
-                routes = pickle.load(open("instance/routes.dat", "rb"))
+                routes = pickle.load(f)
             done=1
             
         else:     
