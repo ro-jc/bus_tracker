@@ -8,7 +8,7 @@ routes = load(open("instance/routes.dat", "rb"))
 def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
-        SECRET_KEY='1qfvjfdsakfsaldfiugafgdfb fliufg sldfgvfvw lgefkvgbfiv'
+        SECRET_KEY=open('secret').read()
     )
 
     if test_config is None:
