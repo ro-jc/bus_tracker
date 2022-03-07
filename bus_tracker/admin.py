@@ -187,20 +187,24 @@ def remove():
     record = dict()
     options = []
 
+    db = get_db()
+    crs = db.cursor(dictionary=True)
+
     table_name = request.args.get('table')
+    print(table_name)
     if table_name:
-        if table_name == 'route' or 'Route':
+        if table_name == 'route':
             options = list(routes.keys())
-        elif table_name == 'bus' or 'Bus':
-            db = get_db()
-            crs = db.cursor(dictionary=True)
+        elif table_name == 'bus':
             crs.execute("SELECT registration from bus")
             options = [record['registration'] for record in crs.fetchall()]
+            print(options)
         else:
-            db = get_db()
-            crs = db.cursor(dictionary=True)
             crs.execute(f"SELECT userid from {table_name.lower()}")
             options = [record['userid'] for record in crs.fetchall()]
+            print(options)
+    else:
+        table_name = "bus"
 
     if request.method == 'POST':
         value = request.form['id']
@@ -235,7 +239,7 @@ def remove():
     if error is not None:
         flash(error)
 
-    return render_template('admin/remove.html', table_name=table_name.lower(), options=options, record=record, done=done)
+    return render_template('admin/remove.html', table_name=table_name, options=options, record=record, done=done)
 
 
 
