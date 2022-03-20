@@ -142,7 +142,7 @@ def route():
                 pickle.dump(routes, f)
                 f.seek(0)
                 routes = pickle.load(f)
-                print(routes[route_name])
+                #print(routes[route_name])
             done=1
             
         else:     
@@ -190,25 +190,25 @@ def remove():
     db = get_db()
     crs = db.cursor(dictionary=True)
 
-    table_name = request.args.get('table')
-    print(table_name)
+    table_name = request.args.get('table').lower()
+    #print(table_name)
     if table_name:
         if table_name == 'route':
             options = list(routes.keys())
         elif table_name == 'bus':
             crs.execute("SELECT registration from bus")
             options = [record['registration'] for record in crs.fetchall()]
-            print(options)
+            #print(options)
         else:
-            crs.execute(f"SELECT userid from {table_name.lower()}")
+            crs.execute(f"SELECT userid from {table_name}")
             options = [record['userid'] for record in crs.fetchall()]
-            print(options)
+            #print(options)
     else:
         table_name = "bus"
 
     if request.method == 'POST':
         value = request.form['id']
-        if table_name != 'route' or 'Route':
+        if table_name != 'route':
             if table_name == 'bus':
                 crs.execute(f"SELECT * FROM bus WHERE registration='{value}'")
                 record = crs.fetchone()
@@ -273,4 +273,6 @@ def add_admin_command():
     crs = db.cursor()
     crs.execute(f"INSERT INTO admin (name, password) VALUES ('{name}', '{generate_password_hash(password)}')")
     db.commit()
+    crs.execute("SELECT userid FROM admin ORDER BY userid DESC LIMIT 1")
     print(f"Admin {name} added")
+    print(f"Userid: {crs.fetchone()[0]}")
