@@ -6,10 +6,10 @@ from flask.cli import with_appcontext
 
 def get_db():
     if 'db' not in g:
-        g.db = mysql.connector.connect(
-            user='python',
-            database='BUS'
-        )
+        g.db = mysql.connector.connect(user='python')
+        g.db.cursor().execute("create database if not exists BUS")
+        g.db.commit()
+        g.db = mysql.connector.connect(user='python', database='BUS')
 
     return g.db
 
