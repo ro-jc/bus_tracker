@@ -27,9 +27,13 @@ def bus():
         
         crs = get_db().cursor(dictionary=True)
         if route_indexes:
-            crs.execute("SELECT registration, route, type, stop_index, stop_time, seat_available"
+            if len(route_indexes) > 1:
+                crs.execute("SELECT registration, route, type, stop_index, stop_time, seat_available"
                         f" FROM bus WHERE route in {tuple(route_indexes)}")
-            
+            else:
+                crs.execute("SELECT registration, route, type, stop_index, stop_time, seat_available"
+                        f" FROM bus WHERE route='{tuple(route_indexes)[0]}'")
+                                
             #check if bus has already passed the stop before adding to the result set
             for record in crs.fetchall():
                 route_name = record['route']
